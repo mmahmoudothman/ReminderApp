@@ -27,8 +27,6 @@ public class ReminderDatabase extends SQLiteOpenHelper {
     private static final String KEY_TITLE = "title";
     private static final String KEY_DATE = "date";
     private static final String KEY_TIME = "time";
-    private static final String KEY_REPEAT_NO = "repeat_no";
-    private static final String KEY_REPEAT_TYPE = "repeat_type";
     private static final String KEY_ACTIVE = "active";
 
     public ReminderDatabase(Context context) {
@@ -44,8 +42,6 @@ public class ReminderDatabase extends SQLiteOpenHelper {
                 + KEY_TITLE + " TEXT,"
                 + KEY_DATE + " TEXT,"
                 + KEY_TIME + " INTEGER,"
-                + KEY_REPEAT_NO + " INTEGER,"
-                + KEY_REPEAT_TYPE + " TEXT,"
                 + KEY_ACTIVE + " BOOLEAN" + ")";
         db.execSQL(CREATE_REMINDERS_TABLE);
     }
@@ -70,8 +66,6 @@ public class ReminderDatabase extends SQLiteOpenHelper {
         values.put(KEY_TITLE, reminder.getTitle());
         values.put(KEY_DATE, reminder.getDate());
         values.put(KEY_TIME, reminder.getTime());
-        values.put(KEY_REPEAT_NO, reminder.getRepeatNo());
-        values.put(KEY_REPEAT_TYPE, reminder.getRepeatType());
         values.put(KEY_ACTIVE, reminder.getActive());
 
         // Inserting Row
@@ -90,8 +84,6 @@ public class ReminderDatabase extends SQLiteOpenHelper {
                                 KEY_TITLE,
                                 KEY_DATE,
                                 KEY_TIME,
-                                KEY_REPEAT_NO,
-                                KEY_REPEAT_TYPE,
                                 KEY_ACTIVE
                         }, KEY_ID + "=?",
 
@@ -105,9 +97,7 @@ public class ReminderDatabase extends SQLiteOpenHelper {
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getString(3),
-                cursor.getString(4),
-                cursor.getString(5),
-                cursor.getString(6));
+                cursor.getString(4));
 
         return reminder;
     }
@@ -130,9 +120,7 @@ public class ReminderDatabase extends SQLiteOpenHelper {
                 reminder.setTitle(cursor.getString(1));
                 reminder.setDate(cursor.getString(2));
                 reminder.setTime(cursor.getString(3));
-                reminder.setRepeatNo(cursor.getString(4));
-                reminder.setRepeatType(cursor.getString(5));
-                reminder.setActive(cursor.getString(6));
+                reminder.setActive(cursor.getString(4));
 
                 // Adding Reminders to list
                 reminderList.add(reminder);
@@ -158,8 +146,6 @@ public class ReminderDatabase extends SQLiteOpenHelper {
         values.put(KEY_TITLE, reminder.getTitle());
         values.put(KEY_DATE, reminder.getDate());
         values.put(KEY_TIME, reminder.getTime());
-        values.put(KEY_REPEAT_NO, reminder.getRepeatNo());
-        values.put(KEY_REPEAT_TYPE, reminder.getRepeatType());
         values.put(KEY_ACTIVE, reminder.getActive());
 
         // Updating row

@@ -192,13 +192,6 @@ public class MainActivity extends AppCompatActivity {
         return 100;
     }
 
-    // Create menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
     // Adapter class for recycler view
     public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalItemHolder> {
         private ArrayList<ReminderItem> mItems;
@@ -234,12 +227,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(VerticalItemHolder itemHolder, int position) {
+        public void onBindViewHolder(final VerticalItemHolder itemHolder, int position) {
             ReminderItem item = mItems.get(position);
             itemHolder.setReminderTitle(item.mTitle);
             itemHolder.setReminderDateTime(item.mDateTime);
-            itemHolder.setReminderRepeatInfo(item.mRepeatNo, item.mRepeatType);
             itemHolder.setActiveImage(item.mActive);
+            itemHolder.itemView.setLongClickable(true);
+            itemHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AppCompatActivity activity = MainActivity.this;
+                    //activity.startSupportActionMode(mDeleteMode);
+                    mMultiSelector.setSelected(itemHolder, true);
+                    discard_reminder();
+                    return true;
+                }
+            });
+
         }
 
         @Override
@@ -251,15 +255,11 @@ public class MainActivity extends AppCompatActivity {
         public class ReminderItem {
             public String mTitle;
             public String mDateTime;
-            public String mRepeatNo;
-            public String mRepeatType;
             public String mActive;
 
-            public ReminderItem(String Title, String DateTime, String RepeatNo, String RepeatType, String Active) {
+            public ReminderItem(String Title, String DateTime, String Active) {
                 this.mTitle = Title;
                 this.mDateTime = DateTime;
-                this.mRepeatNo = RepeatNo;
-                this.mRepeatType = RepeatType;
                 this.mActive = Active;
             }
         }
@@ -294,7 +294,6 @@ public class MainActivity extends AppCompatActivity {
                 itemView.setOnClickListener(this);
                 itemView.setOnLongClickListener(this);
                 itemView.setLongClickable(true);
-
                 // Initialize adapter for the items
                 mAdapter = adapter;
 
@@ -320,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+
             // On long press enter action mode with context menu
             @Override
             public boolean onLongClick(View v) {
@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
                 mMultiSelector.setSelected(this, true);
                 return true;
             }
+
 
             // Set reminder title view
             public void setReminderTitle(String title) {
@@ -351,11 +352,6 @@ public class MainActivity extends AppCompatActivity {
                 mDateAndTimeText.setText(datetime);
             }
 
-            // Set repeat views
-            public void setReminderRepeatInfo(String repeatNo, String repeatType) {
-                mRepeatInfoText.setText("Repeat Off");
-            }
-
             // Set active image as on or off
             public void setActiveImage(String active) {
                 if (active.equals("true")) {
@@ -368,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Generate random test data
         public ReminderItem generateDummyData() {
-            return new ReminderItem("1", "2", "3", "4", "5");
+            return new ReminderItem("1", "2", "3");
         }
 
         // Generate real data for each item
@@ -380,8 +376,6 @@ public class MainActivity extends AppCompatActivity {
 
             // Initialize lists
             List<String> Titles = new ArrayList<>();
-            List<String> RepeatNos = new ArrayList<>();
-            List<String> RepeatTypes = new ArrayList<>();
             List<String> Actives = new ArrayList<>();
             List<String> DateAndTime = new ArrayList<>();
             List<Integer> IDList = new ArrayList<>();
@@ -391,8 +385,6 @@ public class MainActivity extends AppCompatActivity {
             for (Reminder r : reminders) {
                 Titles.add(r.getTitle());
                 DateAndTime.add(r.getDate() + " " + r.getTime());
-                RepeatNos.add(r.getRepeatNo());
-                RepeatTypes.add(r.getRepeatType());
                 Actives.add(r.getActive());
                 IDList.add(r.getID());
             }
@@ -414,8 +406,7 @@ public class MainActivity extends AppCompatActivity {
             for (DateTimeSorter item : DateTimeSortList) {
                 int i = item.getIndex();
 
-                items.add(new ReminderItem(Titles.get(i), DateAndTime.get(i),
-                        RepeatNos.get(i), RepeatTypes.get(i), Actives.get(i)));
+                items.add(new ReminderItem(Titles.get(i), DateAndTime.get(i), Actives.get(i)));
                 IDmap.put(k, IDList.get(i));
                 k++;
             }
