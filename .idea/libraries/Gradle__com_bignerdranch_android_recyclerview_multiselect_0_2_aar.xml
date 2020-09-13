@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.bignerdranch.android:recyclerview-multiselect:0.2@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e6053b2eb7f551e5f902d59fb8dc62ec/jetified-recyclerview-multiselect-0.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e6053b2eb7f551e5f902d59fb8dc62ec/jetified-recyclerview-multiselect-0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e6053b2eb7f551e5f902d59fb8dc62ec/jetified-recyclerview-multiselect-0.2/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
